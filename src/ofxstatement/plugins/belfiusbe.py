@@ -80,12 +80,9 @@ class BelfiusBeParser(CsvStatementParser):
             stmt_ln.bank_account_to = BankAccount('', line[4])
 
         if stmt_ln.payee == None or stmt_ln.payee == '' and line[8].startswith('MAESTRO-BETALING'):
-            payee_match = re.match('MAESTRO-BETALING\s+(?:.+?\s+)?\d\d/\d\d-[a-zA-Z0-9_-]+\s+(.+)\s+\w\w\s+\d+,', line[8])
+            payee_match = re.match('MAESTRO-BETALING\s+(?:.+?\s+)?\d\d/\d\d-[a-zA-Z0-9_-]*\s+(.+)\s+\w\w\s+\d+,', line[8])
             if payee_match != None:
                 stmt_ln.payee = payee_match.group(1)
-                
-                # raise ParseError(self.line_nr,
-                #                  'Cannot parse maestro transaction info. (' + line[8] + ')')
 
         refnum_match = re.search('REF. :\s*(\w+)', line[8])
         if refnum_match != None:
